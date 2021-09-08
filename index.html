@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <title>FIC badge decode</title>
+        <script src="https://raw.githubusercontent.com/mebjas/html5-qrcode/master/dist/html5-qrcode.min.js"></script>
+        <script>
+            function decode_fic(data){
+                var table = {'Y': 'T', 'm': 'h', 'é': 'é', 't': 'o', '#': ' ', 'M': 'H', 'F': 'A', '%': 'Y', 'h': 'c', 's': 'n', 'y': 't', 'f': 'a', 'A': '@', 'j': 'e', '8': 'y', 'N': '.', 'k': 'f', 'w': 'r', '*': '0', '?': '6', '\\': '4', '/': '3', '+': '1', '^': '7', '@': '5', 'J': 'E', '0': 'i', 'X': 'S', '}': 'L', 'S': 'N', ' ': 'V', 'U': 'P', 'i': 'd', '5': 'v', 'x': 's', '3': 'l', '-': '2', '`': '9', 'z': 'u', 'G': 'B', 'W': 'R', 'T': 'O', 'g': 'b', '4': 'm', 'I': 'D', '~': 'M', '.': 'I', 'L': 'G', 'Z': 'U', 'l': 'g', '_': '8', '9': 'z'};
+                var result = '';
+                for(var i = 0;i < data.length;i++){
+                    result += table[data[i]];
+                }
+                return result;
+            }
+            function docReady(fn) {
+                if (document.readyState === "complete" || document.readyState === "interactive") {
+                    setTimeout(fn, 1);
+                } else {
+                    document.addEventListener("DOMContentLoaded", fn);
+                }
+            }
+
+            docReady(function () {
+                var resultContainer = document.getElementById('qr-reader-results');
+                var lastResult, countResults = 0;
+                function onScanSuccess(decodedText, decodedResult) {
+                    if (decodedText !== lastResult) {
+                        ++countResults;
+                        lastResult = decodedText;
+                        var data = decode_fic(decodedText.split('&')[1]).split(' ')
+                        document.getElementById('badge-fic').innerHTML = '';
+                        document.getElementById('badge-fic').innerHTML += 'Prenom: '+data[0]+'<br/>';
+                        document.getElementById('badge-fic').innerHTML += 'Nom: '+data[1]+'<br/>';
+                        document.getElementById('badge-fic').innerHTML += 'Entreprise: '+data[2]+'<br/>';
+                        document.getElementById('badge-fic').innerHTML += 'Email: '+data[3]+'<br/>';
+                        document.getElementById('badge-fic').innerHTML += 'Telephone: '+data[4]+'<br/>';
+                    }
+                }
+                var html5QrcodeScanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+                html5QrcodeScanner.render(onScanSuccess);
+            });
+        </script>
+    </head>
+    <body>
+        <center>
+            <div id="qr-reader" style="width:500px"></div>
+            <div id="qr-reader-results"></div>
+            <br/><br/><br/>
+            <div id="badge-fic"></div>
+        </center>
+    </body>
+</html>
