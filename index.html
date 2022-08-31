@@ -3,11 +3,23 @@
         <title>FIC badge decode</title>
         <script type="text/javascript" src="html5-qrcode.min.js"></script>
         <script>
+            var table = {'Y': 'T', 'm': 'h', 'é': 'é', 't': 'o', '#': ' ', 'M': 'H', 'F': 'A', '%': 'Y', 'h': 'c', 's': 'n', 'y': 't', 'f': 'a', 'A': '@', 'j': 'e', '8': 'y', 'N': '.', 'k': 'f', 'w': 'r', '*': '0', '?': '6', '\\': '4', '/': '3', '+': '1', '^': '7', '@': '5', 'J': 'E', '0': 'i', 'X': 'S', '}': 'L', 'S': 'N', ' ': 'V', 'U': 'P', 'i': 'd', '5': 'v', 'x': 's', '3': 'l', '-': '2', '`': '9', 'z': 'u', 'G': 'B', 'W': 'R', 'T': 'O', 'g': 'b', '4': 'm', 'I': 'D', '~': 'M', '.': 'I', 'L': 'G', 'Z': 'U', 'l': 'g', '_': '8', '9': 'z',};
             function decode_fic(data){
-                var table = {'Y': 'T', 'm': 'h', 'é': 'é', 't': 'o', '#': ' ', 'M': 'H', 'F': 'A', '%': 'Y', 'h': 'c', 's': 'n', 'y': 't', 'f': 'a', 'A': '@', 'j': 'e', '8': 'y', 'N': '.', 'k': 'f', 'w': 'r', '*': '0', '?': '6', '\\': '4', '/': '3', '+': '1', '^': '7', '@': '5', 'J': 'E', '0': 'i', 'X': 'S', '}': 'L', 'S': 'N', ' ': 'V', 'U': 'P', 'i': 'd', '5': 'v', 'x': 's', '3': 'l', '-': '2', '`': '9', 'z': 'u', 'G': 'B', 'W': 'R', 'T': 'O', 'g': 'b', '4': 'm', 'I': 'D', '~': 'M', '.': 'I', 'L': 'G', 'Z': 'U', 'l': 'g', '_': '8', '9': 'z'};
                 var result = '';
                 for(var i = 0;i < data.length;i++){
                     result += table[data[i]];
+                }
+                return result;
+            }
+            function encode_fic(data){
+                var inverted_table = {}
+                for (const [key, value] of Object.entries(table)) {
+                    inverted_table[value] = key;
+                }
+
+                var result = '';
+                for(var i = 0;i < data.length;i++){
+                    result += inverted_table[data[i]];
                 }
                 return result;
             }
